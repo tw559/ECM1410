@@ -14,7 +14,7 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	@Override
 	public Account createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
 		//TODO Randomize account ID/Hash Key and make sure old accounts can't be overridden
-		Account output_account = new Account(1, handle," ", 0) ;
+		Account output_account = new Account(1, handle, " ", 0) ;
 		account_map.put(1, (output_account));
 		return output_account;
 	}
@@ -22,7 +22,7 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	@Override
 	public Account createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
 		//TODO Randomize account ID/Hash Key and make sure old accounts can't be overridden
-		Account output_account = new Account(1, handle,description, 0) ;
+		Account output_account = new Account(1, handle, description, 0) ;
 		account_map.put(1, (output_account));
 		return output_account;
 	}
