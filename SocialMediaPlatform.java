@@ -29,7 +29,7 @@ public interface SocialMediaPlatform extends MiniSocialMediaPlatform {
 	 *                                characters, or has white spaces.
 	 * @return the ID of the created account.
 	 */
-	int createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException;
+	Account createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException;
 
 	/**
 	 * The method removes the account with the corresponding handle from the
