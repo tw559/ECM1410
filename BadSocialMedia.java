@@ -13,23 +13,28 @@ public class BadSocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public Account createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
-		//TODO Randomize account ID/Hash Key and make sure old accounts can't be overridden
-		Account output_account = new Account(1, handle, " ", 0) ;
-		account_map.put(1, (output_account));
+		//TODO Make sure old accounts can't be overwritten by a new account that generates the same ID
+		Random rand = new Random();
+		int id_value = (rand.nextInt(1000000)+1);
+		Account output_account = new Account(id_value, handle," ", 0) ;
+		account_map.put(id_value, (output_account));
 		return output_account;
 	}
 
 	@Override
 	public Account createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
-		//TODO Randomize account ID/Hash Key and make sure old accounts can't be overridden
-		Account output_account = new Account(1, handle, description, 0) ;
-		account_map.put(1, (output_account));
+		//TODO Make sure old accounts can't be overridden
+		Random rand = new Random();
+		int id_value = (rand.nextInt(1000000)+1);
+		Account output_account = new Account(id_value, handle, description, 0) ;
+		account_map.put(id_value, (output_account));
 		return output_account;
 	}
 
 	@Override
 	public void removeAccount(int id) throws AccountIDNotRecognisedException {
-		// TODO Auto-generated method stub
+		// TODO Will need reworking so removeAccount(String handle) can work
+		account_map.remove(id);
 
 	}
 
