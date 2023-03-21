@@ -5,6 +5,7 @@ import java.util.*;
 
 public class Account{
     public static final HashMap<Integer, Account> account_map = new HashMap<>();
+    public static final HashMap<String, Integer> id_map = new HashMap<>();
     static int account_id;
     static String handle;
     static String account_description;
@@ -38,14 +39,7 @@ public class Account{
                 = new Account(1, handle," ", 0) ;
         return output_account;
     }
-    public static void main(String[] args)
-    {
-        Account output;
-        output = createAccount("Hat");
-        account_map.put(1, (output));
-        System.out.println(account_map);
-
-    }
+    
 
 }
 
