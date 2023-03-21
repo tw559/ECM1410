@@ -18,6 +18,7 @@ public class BadSocialMedia implements SocialMediaPlatform {
 		int id_value = (rand.nextInt(1000000)+1);
 		Account output_account = new Account(id_value, handle," ", 0) ;
 		account_map.put(id_value, (output_account));
+		id_map.put(handle, id_value);
 		return output_account;
 	}
 
@@ -25,42 +26,52 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	public Account createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
 		//TODO Make sure old accounts can't be overridden
 		Random rand = new Random();
-		int id_value = (rand.nextInt(1000000)+1);
-		Account output_account = new Account(id_value, handle, description, 0) ;
-		account_map.put(id_value, (output_account));
+		int idValue = (rand.nextInt(1000000)+1);
+		Account output_account = new Account(idValue, handle, description, 0) ;
+		account_map.put(idValue, (output_account));
+		id_map.put(handle, idValue);
 		return output_account;
 	}
 
 	@Override
 	public void removeAccount(int id) throws AccountIDNotRecognisedException {
-		// TODO Will need reworking so removeAccount(String handle) can work
+		// TODO Final check
+		Account account = account_map.get(id);
+		String handle = account.handle;
+		id_map.remove(handle);
 		account_map.remove(id);
-
 	}
 
 	@Override
 	public void removeAccount(String handle) throws HandleNotRecognisedException {
-		// TODO Auto-generated method stub
-
+		// TODO Final check
+		int idValue = id_map.get(handle);
+		id_map.remove(handle);
+		account_map.remove(idValue);
 	}
 
 	@Override
 	public void changeAccountHandle(String oldHandle, String newHandle)
 			throws HandleNotRecognisedException, IllegalHandleException, InvalidHandleException {
-		// TODO Auto-generated method stub
-
+		// TODO Final check
+		int idValue = id_map.get(oldHandle);
+		account_map.get(idValue).handle = newHandle;
+		id_map.remove(oldHandle);
+		id_map.put(newHandle, idValue);
 	}
 
 	@Override
 	public void updateAccountDescription(String handle, String description) throws HandleNotRecognisedException {
-		// TODO Auto-generated method stub
-
+		// TODO Final check
+		int idValue = id_map.get(handle);
+		account_map.get(idValue).account_description = description;
 	}
 
 	@Override
 	public String showAccount(String handle) throws HandleNotRecognisedException {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Final check
+		int idValue = id_map.get(handle);
+		return account_map.get(idValue).toString();
 	}
 
 	@Override
