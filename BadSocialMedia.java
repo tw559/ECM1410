@@ -1,6 +1,8 @@
 package socialmedia;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.*;
+import static socialmedia.Account.*;
 
 /**
  * BadSocialMedia is a minimally compiling, but non-functioning implementor of
