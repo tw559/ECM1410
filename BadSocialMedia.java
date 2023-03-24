@@ -3,7 +3,6 @@ package socialmedia;
 import java.io.*;
 import java.util.*;
 import static socialmedia.Account.*;
-import static socialmedia.Post.*;
 
 /**
  * BadSocialMedia is a minimally compiling, but non-functioning implementor of
@@ -12,6 +11,8 @@ import static socialmedia.Post.*;
  * @author Diogo Pacheco
  * @version 1.0
  */
+
+
 public class BadSocialMedia implements SocialMediaPlatform {
 
 	@Override
@@ -78,6 +79,13 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	}
 
 	@Override
+	public void updateAccountPopularity(String handle) throws HandleNotRecognisedException {
+		//TODO Finish method
+		int idValue = id_map.get(handle);
+		++account_map.get(idValue).account_popularity;
+	}
+
+	@Override
 	public int createPost(String handle, String message) throws HandleNotRecognisedException, InvalidPostException {
 		// TODO Auto-generated method stub
 		return 0;
@@ -118,8 +126,8 @@ public class BadSocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public int getNumberOfAccounts() {
-		// TODO Auto-generated method stub
-		return 0;
+		// TODO Final check
+		return account_map.size();
 	}
 
 	@Override
@@ -149,7 +157,15 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	@Override
 	public int getMostEndorsedAccount() {
 		// TODO Auto-generated method stub
-		return 0;
+		int max = 0;
+		int maxKey = 0;
+		for (Map.Entry<Integer, Account> e : account_map.entrySet())
+			if(e.getValue().account_popularity > max){
+				max = e.getValue().account_popularity;
+				maxKey = e.getKey();
+			}
+		account_map.get(maxKey).account_most_pop = true;
+		return maxKey;
 	}
 
 	@Override
