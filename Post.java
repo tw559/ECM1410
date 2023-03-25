@@ -45,8 +45,8 @@ public class Post{
     public static void main(String[] args) {
 		Post output_post = new Post("handle", 60, "message") ;
         System.out.println(output_post);
-        post_map.put(50, (output_post));
-        post_id_map.put(handle, 50);
+        post_map.put(60, (output_post));
+        post_id_map.put(handle, 60);
      
     }
 }
