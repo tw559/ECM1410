@@ -3,6 +3,7 @@ package socialmedia;
 import java.io.*;
 import java.util.*;
 import static socialmedia.Account.*;
+import static socialmedia.Post.*;
 
 /**
  * BadSocialMedia is a minimally compiling, but non-functioning implementor of
@@ -16,25 +17,25 @@ import static socialmedia.Account.*;
 public class BadSocialMedia implements SocialMediaPlatform {
 
 	@Override
-	public Account createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
+	public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
 		//TODO Make sure old accounts can't be overwritten by a new account that generates the same ID
 		Random rand = new Random();
 		int id_value = (rand.nextInt(1000000)+1);
 		Account output_account = new Account(id_value, handle," ", 0) ;
 		account_map.put(id_value, (output_account));
 		id_map.put(handle, id_value);
-		return output_account;
+		return id_value;
 	}
 
 	@Override
-	public Account createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
+	public int createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
 		//TODO Make sure old accounts can't be overridden
 		Random rand = new Random();
 		int idValue = (rand.nextInt(1000000)+1);
 		Account output_account = new Account(idValue, handle, description, 0) ;
 		account_map.put(idValue, (output_account));
 		id_map.put(handle, idValue);
-		return output_account;
+		return idValue;
 	}
 
 	@Override
@@ -88,7 +89,12 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	@Override
 	public int createPost(String handle, String message) throws HandleNotRecognisedException, InvalidPostException {
 		// TODO Auto-generated method stub
-		return 0;
+		Random rand = new Random();
+		int id_value = (rand.nextInt(1000000)+1);
+		Post output_post = new Post(handle, id_value, message) ;
+		post_map.put(id_value, (output_post));
+		post_id_map.put(handle, id_value);
+		return id_value;
 	}
 
 	@Override
@@ -108,13 +114,16 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	@Override
 	public void deletePost(int id) throws PostIDNotRecognisedException {
 		// TODO Auto-generated method stub
-
+		int idValue = post_id_map.get(id);
+		post_id_map.remove(id);
+		post_map.remove(idValue);
 	}
 
 	@Override
 	public String showIndividualPost(int id) throws PostIDNotRecognisedException {
 		// TODO Auto-generated method stub
-		return null;
+		int idValue = post_id_map.get(id);
+		return post_map.get(idValue).toString();
 	}
 
 	@Override
@@ -133,7 +142,7 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	@Override
 	public int getTotalOriginalPosts() {
 		// TODO Auto-generated method stub
-		return 0;
+		return post_map.size();
 	}
 
 	@Override
