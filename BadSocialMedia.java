@@ -55,6 +55,21 @@ public class BadSocialMedia implements SocialMediaPlatform {
 		String handle = account.handle;
 		id_map.remove(handle);
 		account_map.remove(id);
+		for (Map.Entry<Integer, Post> e : post_map.entrySet())
+			if(e.getValue().handle == handle){
+				post_map.remove(e.getKey());
+				post_id_map.remove(e.getValue().handle);
+			}
+		for (Map.Entry<Integer, Comment> e : commentMap.entrySet())
+			if(e.getValue().handle == handle){
+				commentMap.remove(e.getKey());
+				commentIdMap.remove(e.getValue().handle);
+			}
+		for (Map.Entry<Integer, Endorsement> e : endorsementMap.entrySet())
+			if(e.getValue().handle == handle){
+				endorsementMap.remove(e.getKey());
+				endorsementIdMap.remove(e.getValue().handle);
+			}
 	}
 
 	@Override
@@ -63,6 +78,21 @@ public class BadSocialMedia implements SocialMediaPlatform {
 		int idValue = id_map.get(handle);
 		id_map.remove(handle);
 		account_map.remove(idValue);
+		for (Map.Entry<Integer, Post> e : post_map.entrySet())
+			if(e.getValue().handle == handle){
+				post_map.remove(e.getKey());
+				post_id_map.remove(e.getValue().handle);
+			}
+		for (Map.Entry<Integer, Comment> e : commentMap.entrySet())
+			if(e.getValue().handle == handle){
+				commentMap.remove(e.getKey());
+				commentIdMap.remove(e.getValue().handle);
+			}
+		for (Map.Entry<Integer, Endorsement> e : endorsementMap.entrySet())
+			if(e.getValue().handle == handle){
+				endorsementMap.remove(e.getKey());
+				endorsementIdMap.remove(e.getValue().handle);
+			}
 	}
 
 	@Override
@@ -112,6 +142,7 @@ public class BadSocialMedia implements SocialMediaPlatform {
 		Post output_post = new Post(handle, idValue, message) ;
 		post_map.put(idValue, (output_post));
 		post_id_map.put(handle, idValue);
+		account_map.get(id_map.get(handle)).postNumber = account_map.get(id_map.get(handle)).postNumber + 1;
 		return idValue;
 	}
 
@@ -129,6 +160,7 @@ public class BadSocialMedia implements SocialMediaPlatform {
 		String outputMessage = post_map.get(id).post_message;
 		Endorsement outputEndorsement = new Endorsement(idValue, handle, outputHandle, outputMessage);
 		endorsementMap.put(idValue, outputEndorsement);
+		endorsementIdMap.put(handle, idValue);
 		account_map.get(id_map.get(outputHandle)).account_popularity = account_map.get(id_map.get(outputHandle)).account_popularity + 1;
 		post_map.get(id).post_popularity = post_map.get(id).post_popularity + 1;
 		return idValue;
@@ -148,6 +180,7 @@ public class BadSocialMedia implements SocialMediaPlatform {
 		String outputMessage = commentMap.get(id).commentMessage;
 		Endorsement outputEndorsement = new Endorsement(idValue, handle, outputHandle, outputMessage);
 		endorsementMap.put(idValue, outputEndorsement);
+		endorsementIdMap.put(handle, idValue);
 		account_map.get(id_map.get(outputHandle)).account_popularity = account_map.get(id_map.get(outputHandle)).account_popularity + 1;
 		commentMap.get(id).commentPopularity = commentMap.get(id).commentPopularity + 1;
 		return idValue;
@@ -169,15 +202,32 @@ public class BadSocialMedia implements SocialMediaPlatform {
 		int idValue = maxKey + 1;
 		Comment outputComment = new Comment(idValue, handle, id, message);
 		commentMap.put(idValue, outputComment);
+		commentIdMap.put(handle, id);
+		account_map.get(id_map.get(handle)).postNumber = account_map.get(id_map.get(handle)).postNumber + 1;
 		return idValue;
 	}
 
 	@Override
 	public void deletePost(int id) throws PostIDNotRecognisedException {
 		// TODO Final check
-		int idValue = post_id_map.get(id);
-		post_id_map.remove(id);
-		post_map.remove(idValue);
+		//int idValue = post_id_map.get(id);
+		post_id_map.remove(post_map.get(id).handle);
+		post_map.remove(id);
+
+	}
+	@Override
+	public void deleteComment(int id) throws PostIDNotRecognisedException {
+		// TODO Final check
+		//int idValue = commentIdMap.get(id);
+		commentIdMap.remove(commentMap.get(id).handle);
+		commentMap.remove(id);
+	}
+	@Override
+	public void deleteEndorsement(int id) throws PostIDNotRecognisedException {
+		// TODO Final check
+		//int idValue = post_id_map.get(id);
+		endorsementIdMap.remove(endorsementMap.get(id).handle);
+		endorsementMap.remove(id);
 	}
 
 	@Override
@@ -228,7 +278,6 @@ public class BadSocialMedia implements SocialMediaPlatform {
 				max = e.getValue().post_popularity;
 				maxKey = e.getKey();
 			}
-		account_map.get(maxKey).account_most_pop = true;
 		return maxKey;
 	}
 
@@ -257,7 +306,6 @@ public class BadSocialMedia implements SocialMediaPlatform {
 		endorsementIdMap.clear();
 		commentMap.clear();
 		commentIdMap.clear();
-
 	}
 
 	@Override
