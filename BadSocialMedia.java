@@ -4,11 +4,12 @@ import java.io.*;
 import java.util.*;
 import static socialmedia.Account.*;
 import static socialmedia.Post.*;
+import static socialmedia.Endorsement.*;
 
 /**
  * BadSocialMedia is a minimally compiling, but non-functioning implementor of
  * the SocialMediaPlatform interface.
- * 
+ *
  * @author Diogo Pacheco
  * @version 1.0
  */
@@ -101,7 +102,18 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	public int endorsePost(String handle, int id)
 			throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException {
 		// TODO Auto-generated method stub
-		return 0;
+		int maxKey = 0;
+		for (Map.Entry<Integer, Account> e : account_map.entrySet())
+			if(e.getKey() > maxKey){
+				maxKey = e.getKey();
+			}
+		int idValue = maxKey + 1;
+		String outputHandle = post_map.get(id).handle;
+		String outputMessage = post_map.get(id).post_message;
+		Endorsement outputEndorsement = new Endorsement(idValue, handle, outputHandle, outputMessage);
+		endorsementMap.put(idValue, outputEndorsement);
+		account_map.get(id_map.get(outputHandle)).account_popularity = account_map.get(id_map.get(outputHandle)).account_popularity + 1;
+		return idValue;
 	}
 
 	@Override
@@ -148,7 +160,7 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	@Override
 	public int getTotalEndorsmentPosts() {
 		// TODO Auto-generated method stub
-		return 0;
+		return endorsementMap.size();
 	}
 
 	@Override
