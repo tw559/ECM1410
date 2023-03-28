@@ -248,7 +248,15 @@ public class BadSocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public void erasePlatform() {
-		// TODO Auto-generated method stub
+		// TODO Final check
+		post_map.clear();
+		post_id_map.clear();
+		account_map.clear();
+		id_map.clear();
+		endorsementMap.clear();
+		endorsementIdMap.clear();
+		commentMap.clear();
+		commentIdMap.clear();
 
 	}
 
