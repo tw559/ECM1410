@@ -19,7 +19,7 @@ public interface SocialMediaPlatform extends MiniSocialMediaPlatform {
 	 * The method creates an account in the platform with the given handle and
 	 * description.
 	 * <p>
-	 * The state of this SocialMediaPlatform must be be unchanged if any exceptions
+	 * The state of this SocialMediaPlatform must be unchanged if any exceptions
 	 * are thrown.
 	 * 
 	 * @param handle      account's handle.
@@ -29,7 +29,7 @@ public interface SocialMediaPlatform extends MiniSocialMediaPlatform {
 	 *                                characters, or has white spaces.
 	 * @return the ID of the created account.
 	 */
-	Account createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException;
+	int createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException;
 
 	/**
 	 * The method removes the account with the corresponding handle from the
@@ -61,6 +61,15 @@ public interface SocialMediaPlatform extends MiniSocialMediaPlatform {
 	// End Post-related methods ****************************************
 
 	// Analytics-related methods ****************************************
+
+	void updateAccountPopularity(String handle) throws HandleNotRecognisedException;
+
+	int endorseComment(String handle, int id)
+			throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException;
+
+	void deleteComment(int id) throws PostIDNotRecognisedException;
+
+	void deleteEndorsement(int id) throws PostIDNotRecognisedException;
 
 	/**
 	 * This method returns the current total number of accounts present in the
