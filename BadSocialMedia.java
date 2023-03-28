@@ -90,12 +90,17 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	@Override
 	public int createPost(String handle, String message) throws HandleNotRecognisedException, InvalidPostException {
 		// TODO Auto-generated method stub
-		Random rand = new Random();
-		int id_value = (rand.nextInt(1000000)+1);
+		int maxVal = 0;
+		for (Map.Entry<Integer, Post> e : post_map.entrySet())
+			if (e.getKey() > maxVal) {
+				maxVal = e.getKey();
+			}
+		int id_value = maxVal + 1;
 		Post output_post = new Post(handle, id_value, message) ;
 		post_map.put(id_value, (output_post));
 		post_id_map.put(handle, id_value);
 		return id_value;
+
 	}
 
 	@Override
