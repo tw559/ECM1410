@@ -5,6 +5,7 @@ import java.util.*;
 import static socialmedia.Account.*;
 import static socialmedia.Post.*;
 import static socialmedia.Endorsement.*;
+import static socialmedia.Comment.*;
 
 /**
  * BadSocialMedia is a minimally compiling, but non-functioning implementor of
@@ -19,20 +20,28 @@ public class BadSocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public int createAccount(String handle) throws IllegalHandleException, InvalidHandleException {
-		//TODO Make sure old accounts can't be overwritten by a new account that generates the same ID
-		Random rand = new Random();
-		int id_value = (rand.nextInt(1000000)+1);
-		Account output_account = new Account(id_value, handle," ", 0) ;
-		account_map.put(id_value, (output_account));
-		id_map.put(handle, id_value);
-		return id_value;
+		//TODO Final check
+		int maxKey = 0;
+		for (Map.Entry<Integer, Account> e : account_map.entrySet())
+			if(e.getKey() > maxKey){
+				maxKey = e.getKey();
+			}
+		int idValue = maxKey + 1;
+		Account output_account = new Account(idValue, handle," ", 0) ;
+		account_map.put(idValue, (output_account));
+		id_map.put(handle, idValue);
+		return idValue;
 	}
 
 	@Override
 	public int createAccount(String handle, String description) throws IllegalHandleException, InvalidHandleException {
-		//TODO Make sure old accounts can't be overridden
-		Random rand = new Random();
-		int idValue = (rand.nextInt(1000000)+1);
+		//TODO Final check
+		int maxKey = 0;
+		for (Map.Entry<Integer, Account> e : account_map.entrySet())
+			if(e.getKey() > maxKey){
+				maxKey = e.getKey();
+			}
+		int idValue = maxKey + 1;
 		Account output_account = new Account(idValue, handle, description, 0) ;
 		account_map.put(idValue, (output_account));
 		id_map.put(handle, idValue);
@@ -89,26 +98,29 @@ public class BadSocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public int createPost(String handle, String message) throws HandleNotRecognisedException, InvalidPostException {
-		// TODO Auto-generated method stub
-		int maxVal = 0;
+		// TODO Final check
+		int maxKey = 0;
 		for (Map.Entry<Integer, Post> e : post_map.entrySet())
-			if (e.getKey() > maxVal) {
-				maxVal = e.getKey();
+			if(e.getKey() > maxKey){
+				maxKey = e.getKey();
 			}
-		int id_value = maxVal + 1;
-		Post output_post = new Post(handle, id_value, message) ;
-		post_map.put(id_value, (output_post));
-		post_id_map.put(handle, id_value);
-		return id_value;
-
+		for (Map.Entry<Integer, Comment> e : commentMap.entrySet())
+			if(e.getKey() > maxKey){
+				maxKey = e.getKey();
+			}
+		int idValue = maxKey + 1;
+		Post output_post = new Post(handle, idValue, message) ;
+		post_map.put(idValue, (output_post));
+		post_id_map.put(handle, idValue);
+		return idValue;
 	}
 
 	@Override
 	public int endorsePost(String handle, int id)
 			throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException {
-		// TODO Auto-generated method stub
+		// TODO Final check
 		int maxKey = 0;
-		for (Map.Entry<Integer, Account> e : account_map.entrySet())
+		for (Map.Entry<Integer, Endorsement> e : endorsementMap.entrySet())
 			if(e.getKey() > maxKey){
 				maxKey = e.getKey();
 			}
@@ -118,19 +130,51 @@ public class BadSocialMedia implements SocialMediaPlatform {
 		Endorsement outputEndorsement = new Endorsement(idValue, handle, outputHandle, outputMessage);
 		endorsementMap.put(idValue, outputEndorsement);
 		account_map.get(id_map.get(outputHandle)).account_popularity = account_map.get(id_map.get(outputHandle)).account_popularity + 1;
+		post_map.get(id).post_popularity = post_map.get(id).post_popularity + 1;
+		return idValue;
+	}
+
+	@Override
+	public int endorseComment(String handle, int id)
+			throws HandleNotRecognisedException, PostIDNotRecognisedException, NotActionablePostException {
+		// TODO Final check
+		int maxKey = 0;
+		for (Map.Entry<Integer, Endorsement> e : endorsementMap.entrySet())
+			if(e.getKey() > maxKey){
+				maxKey = e.getKey();
+			}
+		int idValue = maxKey + 1;
+		String outputHandle = commentMap.get(id).handle;
+		String outputMessage = commentMap.get(id).commentMessage;
+		Endorsement outputEndorsement = new Endorsement(idValue, handle, outputHandle, outputMessage);
+		endorsementMap.put(idValue, outputEndorsement);
+		account_map.get(id_map.get(outputHandle)).account_popularity = account_map.get(id_map.get(outputHandle)).account_popularity + 1;
+		commentMap.get(id).commentPopularity = commentMap.get(id).commentPopularity + 1;
 		return idValue;
 	}
 
 	@Override
 	public int commentPost(String handle, int id, String message) throws HandleNotRecognisedException,
 			PostIDNotRecognisedException, NotActionablePostException, InvalidPostException {
-		// TODO Auto-generated method stub
-		return 0;
+		// TODO Final check
+		int maxKey = 0;
+		for (Map.Entry<Integer, Post> e : post_map.entrySet())
+			if(e.getKey() > maxKey){
+				maxKey = e.getKey();
+			}
+		for (Map.Entry<Integer, Comment> e : commentMap.entrySet())
+			if(e.getKey() > maxKey){
+				maxKey = e.getKey();
+			}
+		int idValue = maxKey + 1;
+		Comment outputComment = new Comment(idValue, handle, id, message);
+		commentMap.put(idValue, outputComment);
+		return idValue;
 	}
 
 	@Override
 	public void deletePost(int id) throws PostIDNotRecognisedException {
-		// TODO Auto-generated method stub
+		// TODO Final check
 		int idValue = post_id_map.get(id);
 		post_id_map.remove(id);
 		post_map.remove(idValue);
@@ -138,7 +182,7 @@ public class BadSocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public String showIndividualPost(int id) throws PostIDNotRecognisedException {
-		// TODO Auto-generated method stub
+		// TODO Final check
 		int idValue = post_id_map.get(id);
 		return post_map.get(idValue).toString();
 	}
@@ -158,31 +202,39 @@ public class BadSocialMedia implements SocialMediaPlatform {
 
 	@Override
 	public int getTotalOriginalPosts() {
-		// TODO Auto-generated method stub
+		// TODO Final check
 		return post_map.size();
 	}
 
 	@Override
 	public int getTotalEndorsmentPosts() {
-		// TODO Auto-generated method stub
+		// TODO Final check
 		return endorsementMap.size();
 	}
 
 	@Override
 	public int getTotalCommentPosts() {
-		// TODO Auto-generated method stub
-		return 0;
+		// TODO Final check
+		return commentMap.size();
 	}
 
 	@Override
 	public int getMostEndorsedPost() {
-		// TODO Auto-generated method stub
-		return 0;
+		// TODO Final check
+		int max = 0;
+		int maxKey = 0;
+		for (Map.Entry<Integer, Post> e : post_map.entrySet())
+			if(e.getValue().post_popularity > max){
+				max = e.getValue().post_popularity;
+				maxKey = e.getKey();
+			}
+		account_map.get(maxKey).account_most_pop = true;
+		return maxKey;
 	}
 
 	@Override
 	public int getMostEndorsedAccount() {
-		// TODO Auto-generated method stub
+		// TODO Final check
 		int max = 0;
 		int maxKey = 0;
 		for (Map.Entry<Integer, Account> e : account_map.entrySet())
