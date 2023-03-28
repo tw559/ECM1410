@@ -304,13 +304,30 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	@Override
 	public void savePlatform(String filename) throws IOException {
 		// TODO Auto-generated method stub
-
+		System.out.println("Saving platform... ");
+		FileOutputStream myFileOutStream = new FileOutputStream(filename + ".ser");
+        	ObjectOutputStream myObjectOutStream = new ObjectOutputStream(myFileOutStream);
+        	myObjectOutStream.writeObject(post_map);
+		myObjectOutStream.writeObject(post_id_map);
+		myObjectOutStream.writeObject(account_map);
+		myObjectOutStream.writeObject(id_map);
+		myObjectOutStream.writeObject(endorsementMap);
+		myObjectOutStream.writeObject(endorsementIdMap);
+		myObjectOutStream.writeObject(commentMap);
+		myObjectOutStream.writeObject(commentIdMap);
+		myObjectOutStream.close();
+		myFileOutStream.close();
+		System.out.println("Platform saved!" + 
+						"\nIt has been saved in your current working directory under filename: "+ filename);
 	}
 
 	@Override
 	public void loadPlatform(String filename) throws IOException, ClassNotFoundException {
 		// TODO Auto-generated method stub
-
+	FileInputStream fis = new FileInputStream(filename + ".ser");
+	ObjectInputStream ois = new ObjectInputStream(fis);
+    	ois.close();
+   	fis.close();
 	}
 
 }
