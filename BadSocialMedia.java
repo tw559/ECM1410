@@ -120,13 +120,6 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	}
 
 	@Override
-	public void updateAccountPopularity(String handle) throws HandleNotRecognisedException {
-		//TODO Finish method
-		int idValue = id_map.get(handle);
-		++account_map.get(idValue).account_popularity;
-	}
-
-	@Override
 	public int createPost(String handle, String message) throws HandleNotRecognisedException, InvalidPostException {
 		// TODO Final check
 		int maxKey = 0;
