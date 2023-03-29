@@ -355,6 +355,7 @@ public class BadSocialMedia implements SocialMediaPlatform {
 		// TODO Auto-generated method stub
 	FileInputStream fis = new FileInputStream(filename + ".ser");
 	ObjectInputStream ois = new ObjectInputStream(fis);
+	ois.readObject();
     	ois.close();
    	fis.close();
 	}
