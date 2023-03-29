@@ -234,7 +234,36 @@ public class BadSocialMedia implements SocialMediaPlatform {
 	public StringBuilder showPostChildrenDetails(int id)
 			throws PostIDNotRecognisedException, NotActionablePostException {
 		// TODO Auto-generated method stub
-		return null;
+		StringBuilder family = new StringBuilder();
+		if (post_map.get(id) != null) {
+			family.append(post_map.get(id) + "\n");
+		} else if (commentMap.get(id) != null) {
+			family.append(commentMap.get(id) + "\n");
+		} else {
+			throw new PostIDNotRecognisedException();
+		}
+
+		for (Map.Entry<Integer, Comment> e : commentMap.entrySet())
+			if(e.getValue().parentPostID == id){
+				family.append("|".indent(5) + e.getValue().toString().indent(5));
+				for (Map.Entry<Integer, Comment> f : commentMap.entrySet())
+					if(f.getValue().parentPostID == e.getKey()) {
+						family.append("|".indent(10) + f.getValue().toString().indent(10));
+						for (Map.Entry<Integer, Comment> g : commentMap.entrySet())
+							if(g.getValue().parentPostID == f.getKey()) {
+								family.append("|".indent(15) + g.getValue().toString().indent(15));
+								for (Map.Entry<Integer, Comment> h : commentMap.entrySet())
+									if(h.getValue().parentPostID == g.getKey()) {
+										family.append("|".indent(15) + h.getValue().toString().indent(15));
+										for (Map.Entry<Integer, Comment> i : commentMap.entrySet())
+											if(i.getValue().parentPostID == h.getKey()) {
+												family.append("|".indent(15) + "\n More comments in chain");
+											}
+									}
+							}
+					}
+			}
+		return family;
 	}
 
 	@Override
