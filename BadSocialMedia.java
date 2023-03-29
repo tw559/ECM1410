@@ -235,6 +235,16 @@ public class BadSocialMedia implements SocialMediaPlatform {
 			throws PostIDNotRecognisedException, NotActionablePostException {
 		// TODO Auto-generated method stub
 		StringBuilder family = new StringBuilder();
+		for (Map.Entry<Integer, Post> d : post_map.entrySet())
+			for (Map.Entry<Integer, Comment> e : commentMap.entrySet())
+				if(e.getValue().parentPostID == d.getValue().post_id){
+					++d.getValue().comment_no;
+				}
+		for (Map.Entry<Integer, Comment> d : commentMap.entrySet())
+			for (Map.Entry<Integer, Comment> e : commentMap.entrySet())
+				if(e.getValue().parentPostID == d.getValue().commentId){
+					++d.getValue().commentComment;
+				}
 		if (post_map.get(id) != null) {
 			family.append(post_map.get(id) + "\n");
 		} else if (commentMap.get(id) != null) {
